@@ -1,5 +1,5 @@
 import { MongoClient, Db, Collection } from "mongodb";
-import { ErrorResponse } from "../utils/ErrorResponse";
+import { ErrorResponse } from "../api/utils/ErrorResponse";
 
 let _db: Db;
 
