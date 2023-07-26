@@ -19,7 +19,7 @@ export const connectDatabase = async () => {
 
     const connection: MongoClient = await client.connect();
 
-    console.log(`db connection was creaated successfully! Database: ${connection.options.dbName}`);
+    console.log(`Database connection was creaated successfully! db: ${connection.options.dbName}`);
 }
 
 const db = (): Db | ErrorResponse => {
