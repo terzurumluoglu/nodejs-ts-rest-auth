@@ -4,6 +4,9 @@ import { IUser } from "../models/IUser";
 import { ILoginResponse } from "../models/ILogin";
 import { BcryptService, JWTService, UserService } from "../services";
 
+// @desc   Login
+// @route  POST /auth/login
+// @access Public
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
