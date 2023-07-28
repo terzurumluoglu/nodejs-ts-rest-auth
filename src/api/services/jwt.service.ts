@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
 import { IUser } from "../models/IUser";
+import { ILoginResponse } from "../models/ILogin";
+import { CookieService } from "./";
+import { ITokenResponse } from "../models/ITokenResponse";
 
 export class JWTService {
 
@@ -18,4 +21,28 @@ export class JWTService {
     verifyJWT = (refreshToken: string) => {
         return jwt.verify(refreshToken, process.env.REFRESH_SECRET);
     };
+
+    sendTokenResponse = (response: ILoginResponse) => {
+        
+        const { user, res, refreshToken } = response;
+
+        const accessToken: string = this.generateJWT(user);
+
+        const result: ITokenResponse = { accessToken, refreshToken, user: undefined };
+
+        const cookieService = new CookieService();
+
+        cookieService.saveCookie({ response: res, key: 'accessToken', value: accessToken })
+
+        if (!refreshToken) {
+            result.refreshToken = this.generateRefreshToken(user);
+            result.user = user;
+            cookieService.saveCookie({ response: res, key: 'refreshToken', value: result.refreshToken });
+        }
+
+        res.status(200).send({
+            success: true,
+            result,
+        });
+    }
 }

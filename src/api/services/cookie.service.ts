@@ -1,10 +1,26 @@
 import { Response } from "express";
-import { ICookie } from "../models/ICookie";
+import { ICookie, IOptions } from "../models/ICookie";
+import { ENVIRONMENTS } from "../../constants";
+
+const dayAsSecond = 24 * 60 * 60 * 1000;
 
 export class CookieService {
 
     saveCookie = (cookieInfo: ICookie) => {
-        const { response, key, value, options } = cookieInfo;
+
+        const { response, key, value } = cookieInfo;
+
+        const now = Date.now();
+
+        const options: IOptions = {
+            expires: new Date(now + +process.env.JWT_COOKIE_EXPIRE * dayAsSecond),
+            httpOnly: true,
+        };
+
+        if (process.env.ENVIRONMENT === ENVIRONMENTS.PRODUCTION) {
+            options.secure = true;
+        }
+
         response.cookie(key, value, options);
     };
 
