@@ -7,8 +7,8 @@ export interface IUser extends WithId<Document> {
     createdAt: number;
     isActive: boolean;
     isDeleted: boolean;
-    resetPasswordKey: string;
-    resetPasswordKeyExpire: Date;
-    hashedPassword: string;
+    resetPasswordKey?: string;
+    resetPasswordKeyExpire?: Date;
+    hashedPassword?: string;
     roles: string[];
 }
