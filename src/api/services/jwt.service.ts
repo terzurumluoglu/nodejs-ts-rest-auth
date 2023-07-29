@@ -5,7 +5,7 @@ import { ITokenResponse } from "../models/ITokenResponse";
 import { FacadeService } from "./facade.service";
 
 export class JWTService {
-    
+
     facade: FacadeService = FacadeService.get();
 
     generateJWT = (user: IUser) => {
@@ -25,7 +25,7 @@ export class JWTService {
     };
 
     sendTokenResponse = (response: ILoginResponse) => {
-        
+
         const { user, res, refreshToken } = response;
 
         const accessToken: string = this.generateJWT(user);
