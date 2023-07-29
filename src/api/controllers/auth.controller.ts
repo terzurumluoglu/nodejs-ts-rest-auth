@@ -2,7 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { ErrorResponse } from "../utils/ErrorResponse";
 import { IUser } from "../models/IUser";
 import { ILoginResponse } from "../models/ILogin";
-import { BcryptService, JWTService, UserService } from "../services";
+import { FacadeService } from "../services";
+
+const facade: FacadeService = FacadeService.get();
 
 // @desc   Login
 // @route  POST /auth/login
@@ -14,17 +16,14 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         return next(new ErrorResponse('Email and Password must enter', 400));
     }
 
-    const userService: UserService = new UserService();
-    const userWithHashedPassword: IUser = await userService.getUserByEmail(email);
+    const userWithHashedPassword: IUser = await facade.getUserByEmail(email);
     const { hashedPassword, ...user } = userWithHashedPassword;
 
     if (!user) {
         return next(new ErrorResponse('Email and Password is invalid', 404));
     }
 
-    const bcryptService: BcryptService = new BcryptService();
-
-    const isMatch: boolean = await bcryptService.match({ enteredPassword: password, hashedPassword });
+    const isMatch: boolean = await facade.match({ enteredPassword: password, hashedPassword });
 
     if (!isMatch) {
         return next(new ErrorResponse('Email and Password is invalid', 404));
@@ -35,6 +34,5 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         res,
     };
 
-    const jwtService: JWTService = new JWTService();
-    jwtService.sendTokenResponse(response);
+    facade.sendTokenResponse(response);
 };
