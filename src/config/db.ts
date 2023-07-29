@@ -29,4 +29,4 @@ const db = (): Db | ErrorResponse => {
     return new ErrorResponse('The Database Not Found', 500);
 }
 
-export const getCollection = (collection: string): Collection<Document> => (db() as Db).collection(collection);
+export const getCollection = (collection: string): Collection<any> => (db() as Db).collection(collection);
