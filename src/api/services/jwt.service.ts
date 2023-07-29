@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken";
 import { IUser } from "../models/IUser";
 import { ILoginResponse } from "../models/ILogin";
-import { CookieService } from "./";
 import { ITokenResponse } from "../models/ITokenResponse";
+import { FacadeService } from "./facade.service";
 
 export class JWTService {
+
+    facade: FacadeService = FacadeService.get();
 
     generateJWT = (user: IUser) => {
         return jwt.sign(user, process.env.JWT_SECRET, {
@@ -23,21 +25,19 @@ export class JWTService {
     };
 
     sendTokenResponse = (response: ILoginResponse) => {
-        
+
         const { user, res, refreshToken } = response;
 
         const accessToken: string = this.generateJWT(user);
 
         const result: ITokenResponse = { accessToken, refreshToken, user: undefined };
 
-        const cookieService = new CookieService();
-
-        cookieService.saveCookie({ response: res, key: 'accessToken', value: accessToken })
+        this.facade.saveCookie({ response: res, key: 'accessToken', value: accessToken })
 
         if (!refreshToken) {
             result.refreshToken = this.generateRefreshToken(user);
             result.user = user;
-            cookieService.saveCookie({ response: res, key: 'refreshToken', value: result.refreshToken });
+            this.facade.saveCookie({ response: res, key: 'refreshToken', value: result.refreshToken });
         }
 
         res.status(200).send({
