@@ -1,6 +1,5 @@
 import { getCollection } from "../../config/db";
-import { IRegister } from "../models/ILogin";
-import { IToBeCreatedUser, IUser } from "../models/IUser";
+import { IToBeCreatedUser, IRegister, IUser } from "../models";
 import { FacadeService } from "./facade.service";
 
 const USER_COLLECTION: string = 'users';
