@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ErrorResponse } from "../utils/ErrorResponse";
-import { IUser } from "../models/IUser";
-import { ILoginResponse } from "../models/ILogin";
+import { ILoginResponse, IUser } from "../models";
 import { FacadeService } from "../services";
 
 const facade: FacadeService = FacadeService.get();

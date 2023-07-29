@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { ICookie, IOptions } from "../models/ICookie";
+import { ICookie, IOptions } from "../models";
 import { ENVIRONMENTS } from "../../constants";
 
 const dayAsSecond = 24 * 60 * 60 * 1000;

@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
-import { IUser } from "../models/IUser";
-import { ILoginResponse } from "../models/ILogin";
-import { ITokenResponse } from "../models/ITokenResponse";
+import { ILoginResponse, ITokenResponse, IUser } from "../models";
 import { FacadeService } from "./facade.service";
 
 export class JWTService {

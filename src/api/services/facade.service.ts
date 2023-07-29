@@ -1,7 +1,5 @@
 import { Response } from "express";
-import { ICookie } from "../models/ICookie";
-import { ILoginResponse, IRegister } from "../models/ILogin";
-import { IUser } from "../models/IUser";
+import { ICookie, ILoginResponse, IRegister, IUser } from "../models";
 import { BcryptService, CookieService, JWTService, UserService } from "./";
 
 export class FacadeService {
