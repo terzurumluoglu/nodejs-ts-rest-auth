@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { ErrorResponse } from "../utils/ErrorResponse";
-import { ILoginResponse, IUser } from "../models";
+import { ILogin, ILoginResponse, IRegister, IUser } from "../models";
 import { FacadeService } from "../services";
+import { validateLogin, validateRegister } from "../helpers/validations";
+import { ValidationResult } from "joi";
 
 const facade: FacadeService = FacadeService.get();
 
@@ -11,8 +13,12 @@ const facade: FacadeService = FacadeService.get();
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return next(new ErrorResponse('Email and Password must enter', 400));
+    const validationResult: ValidationResult<ILogin> = await validateLogin({ email, password });
+
+    const { error } = validationResult;
+
+    if (error) {
+        return next(new ErrorResponse(error.stack, 400));
     }
 
     const userWithHashedPassword: IUser = await facade.getUserByEmail(email);
@@ -41,6 +47,14 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 // @access Public
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
+
+    const validationResult: ValidationResult<IRegister> = await validateRegister({ name, email, password });
+
+    const { error } = validationResult;
+
+    if (error) {
+        return next(new ErrorResponse(error.stack, 400));
+    }
 
     const user: IUser = await facade.saveUser({ name, email, password });
 
