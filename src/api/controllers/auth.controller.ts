@@ -35,3 +35,17 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
     facade.sendTokenResponse(response);
 };
+
+// @desc   Register
+// @route  POST /auth/register
+// @access Public
+export const register = async (req: Request, res: Response, next: NextFunction) => {
+    const { name, email, password } = req.body;
+
+    const user: IUser = await facade.saveUser({ name, email, password });
+
+    res.status(200).json({
+        message: 'Success',
+        data: user,
+    });
+}

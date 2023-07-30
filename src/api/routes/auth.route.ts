@@ -5,5 +5,6 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 const router: Router = express.Router();
 
 router.route('/login').post(asyncHandler(login));
+router.route('/register').post(asyncHandler(register));
 
 export { router as authRoute };
