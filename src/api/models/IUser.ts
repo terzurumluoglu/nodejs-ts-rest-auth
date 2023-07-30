@@ -1,6 +1,7 @@
-import { ObjectId, WithId } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export interface IToBeCreatedUser {
+    _id?: ObjectId;
     name: string;
     email: string;
     createdAt: number;

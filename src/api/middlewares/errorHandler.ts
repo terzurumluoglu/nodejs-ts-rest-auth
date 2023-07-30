@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-const { ErrorResponse } = require("../utils");
+import { ErrorResponse } from "../utils/ErrorResponse";
 
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
 
