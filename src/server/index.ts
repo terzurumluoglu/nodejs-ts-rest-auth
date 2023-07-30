@@ -2,7 +2,7 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from 'cookie-parser';
-import { connectDatabase } from '../config/db';
+import { Database } from '../config/database';
 import { BASE_PATH, ENVIRONMENTS } from "../constants";
 
 export const app: Express = express();
@@ -24,7 +24,7 @@ if (process.env.ENVIRONMENT === ENVIRONMENTS.DEVELOPMENT) {
 app.use(express.json());
 app.use(cookieParser());
 
-connectDatabase();
+Database.get();
 
 app.listen(PORT, () => {
     console.log(`The server is running on: ${PORT}`);

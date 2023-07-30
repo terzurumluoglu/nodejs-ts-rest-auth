@@ -1,4 +1,5 @@
-import { getCollection } from "../../config/db";
+import { Collection } from "mongodb";
+import { Database } from "../../config/database";
 import { IToBeCreatedUser, IRegister, IUser } from "../models";
 import { FacadeService } from "./facade.service";
 
@@ -8,8 +9,10 @@ export class UserService {
 
     facade: FacadeService = FacadeService.get();
 
+    collection: Collection = Database.get().getCollection(USER_COLLECTION);
+
     getUserByEmail = async (email: string): Promise<IUser> => {
-        const user = (await getCollection(USER_COLLECTION).findOne({ email })) as IUser;
+        const user = (await this.collection.findOne({ email })) as IUser;
         if (!user) {
             throw new Error(`There is no user this email: ${email}`);
         }
@@ -25,7 +28,7 @@ export class UserService {
 
         const userToBeCreated: IToBeCreatedUser = { ...userToBeCreatedWithoutHashedPassword, hashedPassword };
 
-        const { insertedId: _id } = await getCollection(USER_COLLECTION).insertOne(userToBeCreated);
+        const { insertedId: _id } = await this.collection.insertOne(userToBeCreated);
 
         return { _id, ...userToBeCreatedWithoutHashedPassword };
 
