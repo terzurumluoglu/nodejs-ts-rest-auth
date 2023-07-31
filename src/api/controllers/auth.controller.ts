@@ -63,3 +63,18 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         data: user,
     });
 }
+
+// @desc   Logout
+// @route  POST /auth/logout
+// @access Public
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+    
+    facade.deleteCookie(res, 'accessToken', 'refreshToken');
+
+    res.status(200).json({
+        success: true,
+        result: {
+            message: 'Success',
+        }
+    });
+};
