@@ -24,6 +24,6 @@ export class CookieService {
         response.cookie(key, value, options);
     };
 
-    deleteCookie = (response: Response, ...keys: [string]) => keys.forEach(key => response.clearCookie(key))
+    deleteCookie = (response: Response, ...keys: string[]) => keys.forEach(key => response.clearCookie(key))
 
 }

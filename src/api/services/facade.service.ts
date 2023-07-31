@@ -42,7 +42,7 @@ export class FacadeService {
 
     saveCookie = (cookieInfo: ICookie) => this.cookieService.saveCookie(cookieInfo);
 
-    deleteCookie = (response: Response, ...keys: [string]) => this.cookieService.deleteCookie(response, ...keys);
+    deleteCookie = (response: Response, ...keys: string[]) => this.cookieService.deleteCookie(response, ...keys);
     //#endregion
 
     //#region JWTService
