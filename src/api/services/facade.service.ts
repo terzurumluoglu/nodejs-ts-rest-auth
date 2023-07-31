@@ -1,12 +1,13 @@
 import { Response } from "express";
-import { ICookie, ILoginResponse, IRegister, IUser } from "../models";
-import { BcryptService, CookieService, JWTService, UserService } from "./";
+import { ICookie, ILoginResponse, IMail, IRegister, IUser } from "../models";
+import { BcryptService, CookieService, JWTService, MailService, UserService } from "./";
 
 export class FacadeService {
 
     #bcryptService: BcryptService;
     #cookieService: CookieService;
     #jwtService: JWTService;
+    #mailService: MailService;
     #userService: UserService;
 
     static #instance: FacadeService;
@@ -59,6 +60,17 @@ export class FacadeService {
     verifyJWT = (refreshToken: string) => this.jwtService.verifyJWT(refreshToken);
 
     sendTokenResponse = (response: ILoginResponse) => this.jwtService.sendTokenResponse(response);
+    //#endregion
+
+    //#region MailService
+    private get mailService(): MailService {
+        if (!this.#mailService) {
+            this.#mailService = new MailService();
+        }
+        return this.#mailService;
+    }
+
+    send = (mailInfo: IMail) => this.mailService.send(mailInfo);
     //#endregion
 
     //#region UserService
