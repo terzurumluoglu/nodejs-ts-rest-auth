@@ -18,6 +18,32 @@ export class UserService {
         }
         return user;
     }
+    setResetPasswordKeyInfo = async (url: string, email: string) => {
+
+        const now: number = Date.now();
+
+        const resetPasswordKey = crypto.randomBytes(32).toString('hex');
+        const hashedResetPasswordKey = crypto.createHash('sha256').update(resetPasswordKey).digest('hex');
+        const resetPasswordKeyExpire: Date = new Date(now + TEN_MINS_AS_MILLI_SECONDS);
+
+        const tobeSetted = { hashedResetPasswordKey, resetPasswordKeyExpire };
+
+        const { error } = await promiseHandler(this.updateUser({ email }, tobeSetted));
+
+        if (error) {
+            return new ErrorResponse('ERROR', 500);
+        }
+
+        const mailInfo: IMail = {
+            to: email,
+            subject: 'Reset Password Request!',
+            text: `Hi, I am a mail :), I was sent to reset your password.
+            You must do post request with data that includes new password this url to change your password in 10 minutes.
+            ${url}/auth/resetpassword/${resetPasswordKey}`,
+        };
+
+        return this.facade.send(mailInfo);
+    }
 
     saveUser = async (body: IRegister) => {
         const { name, email, password } = body;
