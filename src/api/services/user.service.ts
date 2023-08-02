@@ -33,4 +33,7 @@ export class UserService {
         return { _id, ...userToBeCreatedWithoutHashedPassword };
 
     }
+
+    updateUser = async (params: any, tobeSetted: any) => this.collection.updateOne(params, { $set: tobeSetted });
+
 }
