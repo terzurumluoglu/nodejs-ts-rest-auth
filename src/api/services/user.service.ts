@@ -14,7 +14,7 @@ export class UserService {
     getUserByEmail = async (email: string): Promise<IUser> => {
         const user = (await this.collection.findOne({ email })) as IUser;
         if (!user) {
-            throw new Error(`There is no user this email: ${email}`);
+            throw new ErrorResponse(`There is no user this email: ${email}`, 404);
         }
         return user;
     }
