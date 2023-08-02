@@ -6,7 +6,6 @@ export class MailService {
     #client: Transporter<SentMessageInfo>;
 
     constructor() {
-        createTransport()
         this.#client = createTransport({
             service: process.env.MAIL_SERVICE,
             auth: {
