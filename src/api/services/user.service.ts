@@ -1,9 +1,13 @@
 import { Collection } from "mongodb";
+import crypto from "crypto";
 import { Database } from "../../config/database";
-import { IToBeCreatedUser, IRegister, IUser } from "../models";
+import { IToBeCreatedUser, IRegister, IUser, IMail } from "../models";
 import { FacadeService } from "./facade.service";
+import { promiseHandler } from "../helpers/promiseHandler";
+import { ErrorResponse } from "../utils/ErrorResponse";
 
 const USER_COLLECTION: string = 'users';
+const TEN_MINS_AS_MILLI_SECONDS: number = 10 * 60 * 1000;
 
 export class UserService {
 
