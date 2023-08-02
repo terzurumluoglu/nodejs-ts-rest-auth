@@ -1,11 +1,12 @@
 import { Response } from "express";
 import { ICookie, ILoginResponse, IMail, IRegister, IUser } from "../models";
-import { BcryptService, CookieService, JWTService, MailService, UserService } from "./";
+import { BcryptService, CookieService, CryptoService, JWTService, MailService, UserService } from "./";
 
 export class FacadeService {
 
     #bcryptService: BcryptService;
     #cookieService: CookieService;
+    #cryptoService: CryptoService;
     #jwtService: JWTService;
     #mailService: MailService;
     #userService: UserService;
@@ -43,6 +44,19 @@ export class FacadeService {
     saveCookie = (cookieInfo: ICookie) => this.cookieService.saveCookie(cookieInfo);
 
     deleteCookie = (response: Response, ...keys: string[]) => this.cookieService.deleteCookie(response, ...keys);
+    //#endregion
+
+    //#region CryptoService
+    private get cryptoService(): CryptoService {
+        if (!this.#cryptoService) {
+            this.#cryptoService = new CryptoService();
+        }
+        return this.#cryptoService;
+    }
+
+    generateString = () => this.cryptoService.generateString();
+    
+    generateHashedString = (text: string) => this.cryptoService.generateHashedString(text);
     //#endregion
 
     //#region JWTService
