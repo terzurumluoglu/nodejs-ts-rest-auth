@@ -1,10 +1,14 @@
 import Joi, { ValidationResult } from "joi";
 import { ILogin, IRegister } from "../models";
 
+export const emailSchema = (): Joi.StringSchema<string> => {
+    return Joi.string().email().required();
+}
+
 export const validateLogin = (login: ILogin): ValidationResult<ILogin> => {
 
     const loginSchema = Joi.object<ILogin>({
-        email: Joi.string().email().required(),
+        email: emailSchema(),
         password: Joi.string().required()
     });
 
@@ -15,7 +19,7 @@ export const validateRegister = (register: IRegister): ValidationResult<IRegiste
 
     const registerSchema = Joi.object<IRegister>({
         name: Joi.string().min(3).max(50).required(),
-        email: Joi.string().email().required(),
+        email: emailSchema(),
         password: Joi.string().min(8).max(36).required()
     });
 
