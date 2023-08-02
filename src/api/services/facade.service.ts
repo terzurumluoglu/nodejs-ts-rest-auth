@@ -97,6 +97,12 @@ export class FacadeService {
 
     getUserByEmail = (email: string) => this.userService.getUserByEmail(email);
 
-    saveUser = (body: IRegister) => this.userService.saveUser(body)
+    getUserByHashedResetPasswordKey = (hashedResetPasswordKey: string): Promise<IUser> => this.userService.getUserByHashedResetPasswordKey(hashedResetPasswordKey);
+
+    setResetPasswordKeyInfo = (url: string, email: string) => this.userService.setResetPasswordKeyInfo(url, email);
+
+    saveUser = (body: IRegister) => this.userService.saveUser(body);
+
+    updateUser = async (params: any, tobeSetted: any) => this.userService.updateUser(params, tobeSetted);
     //#endregion
 }
