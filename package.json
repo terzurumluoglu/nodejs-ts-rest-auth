@@ -4,8 +4,8 @@
   "description": "Auth Rest Api with Nodejs Typescript",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc -w & nodemon build/index.js",
-    "build": "rm -rf build/ && tsc",
+    "dev": "npx tsc -w & nodemon build/index.js",
+    "build": "rm -rf build/ && npx tsc",
     "start": "npm run build && node build/index.js"
   },
   "keywords": [],
