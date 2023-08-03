@@ -6,7 +6,7 @@ const dayAsSecond = 24 * 60 * 60 * 1000;
 
 export class CookieService {
 
-    saveCookie = (cookieInfo: ICookie) => {
+    saveCookie = (cookieInfo: ICookie): void => {
 
         const { response, key, value } = cookieInfo;
 
@@ -24,6 +24,6 @@ export class CookieService {
         response.cookie(key, value, options);
     };
 
-    deleteCookie = (response: Response, ...keys: string[]) => keys.forEach(key => response.clearCookie(key))
+    deleteCookie = (response: Response, ...keys: string[]): void => keys.forEach(key => response.clearCookie(key))
 
 }
