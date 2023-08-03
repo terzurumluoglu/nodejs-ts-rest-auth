@@ -41,11 +41,7 @@ export class UserService {
 
         const tobeSetted = { hashedResetPasswordKey, resetPasswordKeyExpire };
 
-        const { error } = await promiseHandler(this.updateUser({ email }, tobeSetted));
-
-        if (error) {
-            return new ErrorResponse('ERROR', 500);
-        }
+        await this.updateUser({ email }, tobeSetted);
 
         const mailInfo: IMail = {
             to: email,
@@ -58,7 +54,7 @@ export class UserService {
         return this.facade.send(mailInfo);
     }
 
-    saveUser = async (body: IRegister) => {
+    saveUser = async (body: IRegister): Promise<IUser> => {
         const { name, email, password } = body;
 
         const hashedPassword: string = await this.facade.hash(password);
@@ -73,6 +69,6 @@ export class UserService {
 
     }
 
-    updateUser = async (params: any, tobeSetted: any) => this.collection.updateOne(params, { $set: tobeSetted });
+    updateUser = (params: any, tobeSetted: any): Promise<any> => this.collection.updateOne(params, { $set: tobeSetted });
 
 }

@@ -15,7 +15,7 @@ export class MailService {
         });
     }
 
-    send = (mailInfo: IMail) => {
+    send = (mailInfo: IMail): Promise<any> => {
         const mailOptions: SendMailOptions = { ...mailInfo, from: process.env.MAIL_USER };
         return this.#client.sendMail(mailOptions)
     }

@@ -54,9 +54,9 @@ export class FacadeService {
         return this.#cryptoService;
     }
 
-    generateString = () => this.cryptoService.generateString();
+    generateString = (): string => this.cryptoService.generateString();
     
-    generateHashedString = (text: string) => this.cryptoService.generateHashedString(text);
+    generateHashedString = (text: string): string => this.cryptoService.generateHashedString(text);
     //#endregion
 
     //#region JWTService
@@ -67,9 +67,9 @@ export class FacadeService {
         return this.#jwtService;
     }
 
-    generateJWT = (user: IUser) => this.jwtService.generateJWT(user);
+    generateJWT = (user: IUser): string => this.jwtService.generateJWT(user);
 
-    generateRefreshToken = (user: IUser) => this.jwtService.generateRefreshToken(user);
+    generateRefreshToken = (user: IUser): string => this.jwtService.generateRefreshToken(user);
 
     verifyJWT = (refreshToken: string) => this.jwtService.verifyJWT(refreshToken);
 
@@ -84,7 +84,7 @@ export class FacadeService {
         return this.#mailService;
     }
 
-    send = (mailInfo: IMail) => this.mailService.send(mailInfo);
+    send = (mailInfo: IMail): Promise<any> => this.mailService.send(mailInfo);
     //#endregion
 
     //#region UserService
@@ -95,14 +95,14 @@ export class FacadeService {
         return this.#userService;
     }
 
-    getUserByEmail = (email: string) => this.userService.getUserByEmail(email);
+    getUserByEmail = (email: string): Promise<IUser> => this.userService.getUserByEmail(email);
 
     getUserByHashedResetPasswordKey = (hashedResetPasswordKey: string): Promise<IUser> => this.userService.getUserByHashedResetPasswordKey(hashedResetPasswordKey);
 
-    setResetPasswordKeyInfo = (url: string, email: string) => this.userService.setResetPasswordKeyInfo(url, email);
+    setResetPasswordKeyInfo = (url: string, email: string): Promise<any> => this.userService.setResetPasswordKeyInfo(url, email);
 
-    saveUser = (body: IRegister) => this.userService.saveUser(body);
+    saveUser = (body: IRegister): Promise<IUser> => this.userService.saveUser(body);
 
-    updateUser = async (params: any, tobeSetted: any) => this.userService.updateUser(params, tobeSetted);
+    updateUser = async (params: any, tobeSetted: any): Promise<any> => this.userService.updateUser(params, tobeSetted);
     //#endregion
 }

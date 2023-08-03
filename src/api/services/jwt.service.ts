@@ -6,13 +6,13 @@ export class JWTService {
 
     facade: FacadeService = FacadeService.get();
 
-    generateJWT = (user: IUser) => {
+    generateJWT = (user: IUser): string => {
         return jwt.sign(user, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRE
         });
     };
 
-    generateRefreshToken = (user: IUser) => {
+    generateRefreshToken = (user: IUser): string => {
         return jwt.sign(user, process.env.REFRESH_SECRET, {
             expiresIn: process.env.REFRESH_EXPIRE
         });
