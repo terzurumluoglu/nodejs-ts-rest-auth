@@ -41,11 +41,7 @@ export class UserService {
 
         const tobeSetted = { hashedResetPasswordKey, resetPasswordKeyExpire };
 
-        const { error } = await promiseHandler(this.updateUser({ email }, tobeSetted));
-
-        if (error) {
-            return new ErrorResponse('ERROR', 500);
-        }
+        await this.updateUser({ email }, tobeSetted);
 
         const mailInfo: IMail = {
             to: email,
