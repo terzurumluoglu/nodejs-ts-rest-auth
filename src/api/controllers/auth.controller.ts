@@ -33,7 +33,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     const isMatch: boolean = await facade.match({ enteredPassword: password, hashedPassword });
 
     if (!isMatch) {
-        return next(new ErrorResponse('Email and Password is invalid', 404));
+        return next(new ErrorResponse('Email or Password is invalid', 404));
     }
 
     const response: ILoginResponse = {
