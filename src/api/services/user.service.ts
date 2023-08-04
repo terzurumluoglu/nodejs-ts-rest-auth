@@ -18,7 +18,11 @@ export class UserService {
     getUserByEmail = async (email: string): Promise<IUser> => this.collection.findOne({ email }) as Promise<IUser>;
 
     getUserByHashedResetPasswordKey = async (hashedResetPasswordKey: string): Promise<IUser> => {
-        const user: IUser = await this.collection.findOne({ hashedResetPasswordKey, resetPasswordKeyExpire: { $gt: Date.now() } }) as IUser;
+        const now: Date = new Date(Date.now());
+        const user: IUser = await this.collection.findOne({
+            hashedResetPasswordKey,
+            resetPasswordKeyExpire: { $gt: now }
+        }) as IUser;
         if (!user) {
             throw new ErrorResponse(`The refresh password key is invalid`, 400);
         }
