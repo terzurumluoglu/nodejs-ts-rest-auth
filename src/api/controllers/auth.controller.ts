@@ -103,7 +103,7 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
 };
 
 // @desc   Reset Password
-// @route  POST /auth/resetpassword
+// @route  POST /auth/resetpassword/{resetPasswordKey}
 // @access Public
 export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -116,11 +116,11 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
 
     const user: IUser = await facade.getUserByHashedResetPasswordKey(hashedResetPasswordKey);
 
-    const { error } = await promiseHandler(facade.updateUser({ email: user.email }, { hashedPassword }));
-
-    if (error) {
-        return new ErrorResponse('ERROR', 500);
-    }
+    await facade.updateUser({ email: user.email }, {
+        hashedPassword,
+        hashedResetPasswordKey: undefined,
+        resetPasswordKeyExpire: undefined
+    });
 
     res.status(200).send({
         success: true,
