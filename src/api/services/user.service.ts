@@ -15,16 +15,14 @@ export class UserService {
 
     collection: Collection = Database.get().getCollection(USER_COLLECTION);
 
-    getUserByEmail = async (email: string): Promise<IUser> => {
-        const user = (await this.collection.findOne({ email })) as IUser;
-        if (!user) {
-            throw new ErrorResponse(`There is no user this email: ${email}`, 404);
-        }
-        return user;
-    }
+    getUserByEmail = async (email: string): Promise<IUser> => this.collection.findOne({ email }) as Promise<IUser>;
 
     getUserByHashedResetPasswordKey = async (hashedResetPasswordKey: string): Promise<IUser> => {
-        const user: IUser = await this.collection.findOne({ hashedResetPasswordKey, resetPasswordKeyExpire: { $gt: Date.now() } }) as IUser;
+        const now: Date = new Date(Date.now());
+        const user: IUser = await this.collection.findOne({
+            hashedResetPasswordKey,
+            resetPasswordKeyExpire: { $gt: now }
+        }) as IUser;
         if (!user) {
             throw new ErrorResponse(`The refresh password key is invalid`, 400);
         }

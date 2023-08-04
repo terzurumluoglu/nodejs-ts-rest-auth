@@ -23,16 +23,17 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     const userWithHashedPassword: IUser = await facade.getUserByEmail(email);
-    const { hashedPassword, ...user } = userWithHashedPassword;
 
-    if (!user) {
-        return next(new ErrorResponse('Email and Password is invalid', 404));
+    if (!userWithHashedPassword) {
+        return next(new ErrorResponse('Email or Password is invalid', 404));
     }
+
+    const { hashedPassword, ...user } = userWithHashedPassword;
 
     const isMatch: boolean = await facade.match({ enteredPassword: password, hashedPassword });
 
     if (!isMatch) {
-        return next(new ErrorResponse('Email and Password is invalid', 404));
+        return next(new ErrorResponse('Email or Password is invalid', 404));
     }
 
     const response: ILoginResponse = {
@@ -102,7 +103,7 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
 };
 
 // @desc   Reset Password
-// @route  POST /auth/resetpassword
+// @route  POST /auth/resetpassword/{resetPasswordKey}
 // @access Public
 export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -115,11 +116,11 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
 
     const user: IUser = await facade.getUserByHashedResetPasswordKey(hashedResetPasswordKey);
 
-    const { error } = await promiseHandler(facade.updateUser({ email: user.email }, { hashedPassword }));
-
-    if (error) {
-        return new ErrorResponse('ERROR', 500);
-    }
+    await facade.updateUser({ email: user.email }, {
+        hashedPassword,
+        hashedResetPasswordKey: undefined,
+        resetPasswordKeyExpire: undefined
+    });
 
     res.status(200).send({
         success: true,
