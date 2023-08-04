@@ -23,11 +23,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     const userWithHashedPassword: IUser = await facade.getUserByEmail(email);
-    const { hashedPassword, ...user } = userWithHashedPassword;
 
-    if (!user) {
-        return next(new ErrorResponse('Email and Password is invalid', 404));
+    if (!userWithHashedPassword) {
+        return next(new ErrorResponse('Email or Password is invalid', 404));
     }
+
+    const { hashedPassword, ...user } = userWithHashedPassword;
 
     const isMatch: boolean = await facade.match({ enteredPassword: password, hashedPassword });
 
