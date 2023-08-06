@@ -124,6 +124,24 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
     })
 };
 
+// @desc   Generate a new Access Token using by Refresh Token
+// @route  POST /auth/token
+// @access Public
+export const token = async (req: Request, res: Response, next: NextFunction) => {
+
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+        return res.status(401).send('UNAUTHORIZE');
+    }
+
+    const { iat, exp, ...user } = facade.verifyJWT(refreshToken);
+
+    const response: ILoginResponse = { user, res, refreshToken };
+
+    facade.sendTokenResponse(response)
+};
+
 // @desc   Logout
 // @route  POST /auth/logout
 // @access Public
