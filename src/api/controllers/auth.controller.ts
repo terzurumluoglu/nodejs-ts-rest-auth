@@ -4,7 +4,6 @@ import { ILogin, ILoginResponse, IRegister, IUser } from "../models";
 import { FacadeService } from "../services";
 import { emailSchema, validateLogin, validateRegister } from "../helpers/validations";
 import { ValidationResult } from "joi";
-import { promiseHandler } from "../helpers/promiseHandler";
 
 const facade: FacadeService = FacadeService.get();
 
@@ -86,13 +85,7 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
     }
 
     const url = req.protocol + '://' + req.get('host');
-
-    const { error } = await promiseHandler(facade.setResetPasswordKeyInfo(url, email));
-
-    if (error) {
-        console.log(error);
-        return new ErrorResponse('ERROR', 500);
-    }
+    await facade.setResetPasswordKeyInfo(url, email)
 
     res.status(200).send({
         success: true,

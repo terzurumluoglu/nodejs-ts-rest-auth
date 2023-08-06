@@ -3,7 +3,6 @@ import crypto from "crypto";
 import { Database } from "../../config/database";
 import { IToBeCreatedUser, IRegister, IUser, IMail } from "../models";
 import { FacadeService } from "./facade.service";
-import { promiseHandler } from "../helpers/promiseHandler";
 import { ErrorResponse } from "../utils/ErrorResponse";
 
 const USER_COLLECTION: string = 'users';
