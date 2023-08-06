@@ -233,6 +233,20 @@ export const OPTIONS: SwaggerOptions = {
                     }
                 }
             }
-        }
+        },
+        '/logout': {
+            post: {
+                tags: [
+                    'auth'
+                ],
+                summary: 'The user can log out.',
+                description: 'This end point return success status as boolean and result object that has a message.',
+                responses: {
+                    200: {
+                        description: 'OK'
+                    },
+                }
+            }
+        },
     }
 };

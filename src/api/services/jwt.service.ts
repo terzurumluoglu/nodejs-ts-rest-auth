@@ -18,7 +18,7 @@ export class JWTService {
         });
     };
 
-    verifyJWT = (refreshToken: string) => {
+    verifyJWT = (refreshToken: string): any => {
         return jwt.verify(refreshToken, process.env.REFRESH_SECRET);
     };
 
