@@ -59,10 +59,12 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
     const user: IUser = await facade.saveUser({ name, email, password });
 
-    res.status(200).json({
-        message: 'Success',
-        data: user,
-    });
+    const response: ILoginResponse = {
+        user,
+        res,
+    };
+
+    facade.sendTokenResponse(response);
 }
 
 // @desc   Forgot Password
