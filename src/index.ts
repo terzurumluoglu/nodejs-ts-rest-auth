@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import swaggerUi from 'swagger-ui-express';
 import { app } from "./server";
 
-import { authRoute } from "./api/routes/auth.route";
+import { Router } from "./api/routes/auth.route";
 import { errorHandler } from "./api/middlewares/errorHandler";
 import { OPTIONS } from './constants/swagger';
 
@@ -18,5 +18,5 @@ app.use('/api', (req,res,next) => {
     })
 });
 
-app.use('/auth', authRoute);
+app.use('/auth', Router.get().routes);
 app.use(errorHandler);
