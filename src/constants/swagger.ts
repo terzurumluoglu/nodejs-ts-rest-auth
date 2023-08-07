@@ -234,6 +234,20 @@ export const OPTIONS: SwaggerOptions = {
                 }
             }
         },
+        '/token': {
+            post: {
+                tags: [
+                    'auth'
+                ],
+                summary: 'A new access token will be generated when the access token was invalid.',
+                description: 'This end point return success status as boolean and refresh token and new access token as a result',
+                responses: {
+                    200: {
+                        description: 'OK'
+                    },
+                }
+            }
+        },
         '/logout': {
             post: {
                 tags: [

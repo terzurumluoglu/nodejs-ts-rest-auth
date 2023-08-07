@@ -1,14 +1,34 @@
-import express, { Router } from 'express';
-import { forgotPassword, login, logout, register, resetPassword, token } from '../controllers/auth.controller';
+import express from 'express';
+import { Controller } from '../controllers/auth.controller';
 import { asyncHandler } from '../middlewares/asyncHandler';
 
-const router: Router = express.Router();
+export class Router {
 
-router.route('/login').post(asyncHandler(login));
-router.route('/register').post(asyncHandler(register));
-router.route('/forgotpassword').post(asyncHandler(forgotPassword));
-router.route('/resetpassword/:resetPasswordKey').post(asyncHandler(resetPassword));
-router.route('/token').post(asyncHandler(token));
-router.route('/logout').post(asyncHandler(logout));
+    static #instance: Router;
 
-export { router as authRoute };
+    static get(): Router {
+        if (!this.#instance) {
+            this.#instance = new Router();
+        }
+        return this.#instance;
+    }
+
+    #router: express.Router = express.Router();
+
+    constructor() {
+
+        const { forgotPassword, login, logout, register, resetPassword, token } = Controller.get();
+
+        this.#router.route('/login').post(asyncHandler(login));
+        this.#router.route('/register').post(asyncHandler(register));
+        this.#router.route('/forgotpassword').post(asyncHandler(forgotPassword));
+        this.#router.route('/resetpassword/:resetPasswordKey').post(asyncHandler(resetPassword));
+        this.#router.route('/token').post(asyncHandler(token));
+        this.#router.route('/logout').post(asyncHandler(logout));
+
+    }
+
+    get routes() {
+        return this.#router;
+    }
+}
