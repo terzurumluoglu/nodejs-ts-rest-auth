@@ -1,5 +1,5 @@
 import express from 'express';
-import { forgotPassword, login, logout, register, resetPassword, token } from '../controllers/auth.controller';
+import { Controller } from '../controllers/auth.controller';
 import { asyncHandler } from '../middlewares/asyncHandler';
 
 export class Router {
@@ -16,6 +16,8 @@ export class Router {
     #router: express.Router = express.Router();
 
     constructor() {
+
+        const { forgotPassword, login, logout, register, resetPassword, token } = Controller.get();
 
         this.#router.route('/login').post(asyncHandler(login));
         this.#router.route('/register').post(asyncHandler(register));
