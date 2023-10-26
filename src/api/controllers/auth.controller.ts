@@ -6,18 +6,21 @@ import { emailSchema, validateLogin, validateRegister } from "../helpers/validat
 import { ValidationResult } from "joi";
 
 
-export class Controller {
+export class AuthController {
 
-    static #instance: Controller;
+    static #instance: AuthController;
 
-    static get(): Controller {
+    static get(): AuthController {
         if (!this.#instance) {
-            this.#instance = new Controller();
+            this.#instance = new AuthController();
         }
         return this.#instance;
     }
 
     #facade: FacadeService = FacadeService.get();
+
+    private constructor() { }
+
 
     // @desc   Login
     // @route  POST /auth/login
