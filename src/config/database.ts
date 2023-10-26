@@ -26,7 +26,7 @@ export class Database {
         return this.#instance;
     }
 
-    constructor() {
+    private constructor() {
         this.#client = new MongoClient(this.#connectionString);
         this.#db = this.#client.db();
         this.#connectDatabase();

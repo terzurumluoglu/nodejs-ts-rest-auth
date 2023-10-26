@@ -21,7 +21,7 @@ export class App {
         return this.#instance;
     }
 
-    constructor() {
+    private constructor() {
 
         if (process.env.ENVIRONMENT === ENVIRONMENTS.PRODUCTION) {
             this.#environmentPath = `${BASE_PATH}environment.prod.env`;

@@ -20,6 +20,8 @@ export class FacadeService {
         return this.#instance;
     }
 
+    private constructor() { }
+
     //#region BcryptService
     private get bcryptService(): BcryptService {
         if (!this.#bcryptService) {

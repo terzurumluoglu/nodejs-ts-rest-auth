@@ -1,5 +1,5 @@
 import express from 'express';
-import { Controller } from '../controllers/auth.controller';
+import { AuthController } from '../controllers/auth.controller';
 import { asyncHandler } from '../middlewares/asyncHandler';
 
 export class Router {
@@ -15,9 +15,9 @@ export class Router {
 
     #router: express.Router = express.Router();
 
-    constructor() {
+    private constructor() {
 
-        const { forgotPassword, login, logout, register, resetPassword, token } = Controller.get();
+        const { forgotPassword, login, logout, register, resetPassword, token } = AuthController.get();
 
         this.#router.route('/login').post(asyncHandler(login));
         this.#router.route('/register').post(asyncHandler(register));
